@@ -5,6 +5,38 @@ const modalTitle = document.getElementById('modalTitle');
 const modalMessage = document.getElementById('modalMessage');
 const modalCloseBtn = document.getElementById('modalCloseBtn');
 
+// --- EFEITO DE RASTRO DE BRILHO (PARTÍCULAS) ---
+let ultimoTempo = 0;
+
+window.addEventListener('mousemove', function(e) {
+    const tempoAtual = Date.now();
+    // Controla a frequência de geração para manter a performance fluida
+    if (tempoAtual - ultimoTempo > 30) {
+        ultimoTempo = tempoAtual;
+        
+        const particle = document.createElement('div');
+        particle.className = 'trail-particle';
+        
+        // Posiciona a partícula exatamente onde o mouse está
+        particle.style.left = `${e.clientX}px`;
+        particle.style.top = `${e.clientY}px`;
+        
+        // Define direções aleatórias para a dispersão da fagulha de luz
+        const randX = (Math.random() - 0.5) * 50;
+        const randY = (Math.random() - 0.5) * 50;
+        particle.style.setProperty('--rand-x', `${randX}px`);
+        particle.style.setProperty('--rand-y', `${randY}px`);
+        
+        document.body.appendChild(particle);
+        
+        // Remove o elemento do DOM após o término da animação para otimizar a memória
+        setTimeout(() => {
+            particle.remove();
+        }, 600);
+    }
+});
+
+// --- VALIDAÇÃO DO FORMULÁRIO E MODAL ---
 form.addEventListener('submit', function(event) {
     // Impede o recarregamento padrão da página
     event.preventDefault();
